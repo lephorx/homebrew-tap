@@ -14,14 +14,13 @@ cask "lenotch" do
 
   # Lenotch updates itself with Sparkle.
   auto_updates true
-  depends_on macos: ">= :sonoma"
+  depends_on macos: :sonoma
 
   app "Lenotch.app"
 
   # Lenotch isn't notarized, so Gatekeeper would block the first launch.
-  postflight do
-    system_command "/usr/bin/xattr",
-                   args: ["-dr", "com.apple.quarantine", "#{appdir}/Lenotch.app"]
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "{{appdir}}/Lenotch.app"]
   end
 
   uninstall quit: "com.lephorx.Lenotch"
